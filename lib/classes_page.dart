@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'generated/l10n.dart';
+
 class Classes extends StatefulWidget {
   const Classes({Key? key}) : super(key: key);
 
@@ -15,7 +17,7 @@ class _ClassesState extends State<Classes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Classes"),
+        title: Text(S.of(context).classes),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
