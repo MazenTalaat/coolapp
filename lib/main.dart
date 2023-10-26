@@ -1,11 +1,15 @@
 import 'package:coolapp/profile_page.dart';
 import 'package:coolapp/home_page.dart';
+import 'package:coolapp/src/features/auth/screens/auth_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ProviderScope(child: AuthScreen()));
 }
 
 class MyApp extends StatefulWidget {
