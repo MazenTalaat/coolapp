@@ -2,13 +2,15 @@ import 'package:coolapp/src/features/auth/models/auth_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthController extends StateNotifier<AuthStatus> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final mailFormKey = GlobalKey<FormState>();
   final passFormKey = GlobalKey<FormState>();
-  final user = FirebaseAuth.instance.currentUser!;
+
+  var firebaseUser;
 
   AuthController()
       : super(
@@ -35,12 +37,13 @@ class AuthController extends StateNotifier<AuthStatus> {
     if (isReadyToLogin()) {
       try {
         state = state.copyWith(isLoading: true, error: '');
-        await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
+        await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: state.email,
           password: state.password,
         );
-        state = state.copyWith(isLoading: false, isLoggedIn: true, error: user.email!);
+        firebaseUser = FirebaseAuth.instance.currentUser!;
+        state = state.copyWith(
+            isLoading: false, isLoggedIn: true, error: firebaseUser.email!);
       } on FirebaseAuthException catch (e) {
         state = state.copyWith(isLoading: false, isLoggedIn: false);
         if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
@@ -49,6 +52,38 @@ class AuthController extends StateNotifier<AuthStatus> {
         }
       }
     }
+  }
+
+  signInWithGoogle() async {
+    try {
+      state = state.copyWith(isLoading: true, error: '');
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      if (gUser != null) {
+        final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken,
+          idToken: gAuth.idToken,
+        );
+
+        await FirebaseAuth.instance.signInWithCredential(credential);
+        firebaseUser = FirebaseAuth.instance.currentUser!;
+        state = state.copyWith(
+            isLoading: false, isLoggedIn: true, error: gUser.displayName!);
+      } else {
+        state = state.copyWith(isLoading: false, error: 'No user selected');
+      }
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
+    }
+  }
+
+  void signOut() async {
+    state = state.copyWith(isLoading: true, error: '');
+    await FirebaseAuth.instance.signOut();
+    GoogleSignIn().signOut();
+    state = state.copyWith(
+        isLoading: false, isLoggedIn: false, error: 'signed Out');
   }
 
   void togglePassword() {

@@ -13,7 +13,19 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const ProviderScope(child: AuthScreen()));
+  runApp( const ProviderScope(child: TestApp()));
+}
+
+class TestApp extends StatelessWidget {
+  const TestApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      home: AuthScreen(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -50,7 +62,7 @@ class RootPage extends StatefulWidget {
 }
 
 class _RootPageState extends State<RootPage> {
-  void changeLanguage(){
+  void changeLanguage() {
     setState(() {
       S.load(const Locale('ar'));
     });
@@ -76,8 +88,10 @@ class _RootPageState extends State<RootPage> {
       bottomNavigationBar: NavigationBar(
         destinations: [
           NavigationDestination(
-              icon: const Icon(Icons.dashboard), label: S.of(context).dashboard),
-          NavigationDestination(icon: const Icon(Icons.class_), label: S.of(context).classes)
+              icon: const Icon(Icons.dashboard),
+              label: S.of(context).dashboard),
+          NavigationDestination(
+              icon: const Icon(Icons.class_), label: S.of(context).classes)
         ],
         onDestinationSelected: (int index) {
           setState(() {

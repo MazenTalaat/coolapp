@@ -17,9 +17,7 @@ class AuthScreen extends ConsumerWidget {
       }
     });
     var status = ref.watch(authControllerProvider);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return Scaffold(
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -261,12 +259,51 @@ class AuthScreen extends ConsumerWidget {
                         : const Text('Login'),
                   ),
                 ),
+                SizedBox(
+                  width: screenDimensions.width / 2.8,
+                  height: screenDimensions.height / 18,
+                  child: ElevatedButton(
+                    onPressed: status.isLoading
+                        ? null
+                        : () {
+                      ref.read(authControllerProvider.notifier).signInWithGoogle();
+                    },
+                    child: status.isLoading
+                        ? JumpingDots(
+                      color: Colors.black,
+                      radius: 7,
+                      numberOfDots: 3,
+                      animationDuration: const Duration(milliseconds: 200),
+                      verticalOffset: -10,
+                    )
+                        : const Text('Sign In with Google'),
+                  ),
+                ),
+                SizedBox(
+                  width: screenDimensions.width / 2.8,
+                  height: screenDimensions.height / 18,
+                  child: ElevatedButton(
+                    onPressed: status.isLoading
+                        ? null
+                        : () {
+                      ref.read(authControllerProvider.notifier).signOut();
+                    },
+                    child: status.isLoading
+                        ? JumpingDots(
+                      color: Colors.black,
+                      radius: 7,
+                      numberOfDots: 3,
+                      animationDuration: const Duration(milliseconds: 200),
+                      verticalOffset: -10,
+                    )
+                        : const Text('Sign Out'),
+                  ),
+                ),
                 Text(status.error),
               ],
             ),
           ),
         ),
-      ),
     );
   }
 }
