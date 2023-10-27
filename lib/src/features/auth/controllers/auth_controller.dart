@@ -1,4 +1,5 @@
 import 'package:coolapp/src/features/auth/models/auth_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -7,6 +8,7 @@ class AuthController extends StateNotifier<AuthStatus> {
   final passwordController = TextEditingController();
   final mailFormKey = GlobalKey<FormState>();
   final passFormKey = GlobalKey<FormState>();
+  final user = FirebaseAuth.instance.currentUser!;
 
   AuthController()
       : super(
@@ -30,16 +32,22 @@ class AuthController extends StateNotifier<AuthStatus> {
   }
 
   Future loginUser() async {
-    try {
-      state = state.copyWith(isLoading: true, error: '');
-      Future.delayed(const Duration(seconds: 2), () {
-        state = state.copyWith(isLoading: false, isLoggedIn: true);
-        Future.delayed(const Duration(seconds: 2), () {
-          state = state.copyWith(isLoggedIn: false);
-        });
-      });
-    } catch (e) {
-      print(e.toString());
+    if (isReadyToLogin()) {
+      try {
+        state = state.copyWith(isLoading: true, error: '');
+        await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+          email: state.email,
+          password: state.password,
+        );
+        state = state.copyWith(isLoading: false, isLoggedIn: true, error: user.email!);
+      } on FirebaseAuthException catch (e) {
+        state = state.copyWith(isLoading: false, isLoggedIn: false);
+        if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
+          state = state.copyWith(error: 'Email or password is not correct');
+          print('Email or password is not correct');
+        }
+      }
     }
   }
 
