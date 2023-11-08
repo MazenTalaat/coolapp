@@ -1,4 +1,4 @@
-import 'package:coolapp/src/features/auth/models/auth_model.dart';
+import 'package:coolapp/src/features/auth_mvc/models/auth_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

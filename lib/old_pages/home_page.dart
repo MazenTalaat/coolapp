@@ -1,7 +1,7 @@
-import 'package:coolapp/classes_page.dart';
+import 'package:coolapp/old_pages/classes_page.dart';
 import 'package:flutter/material.dart';
 
-import 'generated/l10n.dart';
+import '../generated/l10n.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);

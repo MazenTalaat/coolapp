@@ -1,7 +1,9 @@
-import 'package:coolapp/src/features/auth/controllers/auth_controller.dart';
+import 'package:coolapp/src/core/app_router.dart';
+import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:email_validator/email_validator.dart';
 
@@ -14,6 +16,7 @@ class AuthScreen extends ConsumerWidget {
     ref.listen(authControllerProvider, (previous, next) {
       if (next.isLoggedIn) {
         print('Logged In');
+        context.goNamed(AppRoute.posts.name);
       }
     });
     var status = ref.watch(authControllerProvider);
