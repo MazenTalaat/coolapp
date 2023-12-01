@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends StateNotifier<AuthStatus> {
   final emailController = TextEditingController();
@@ -33,6 +34,12 @@ class AuthController extends StateNotifier<AuthStatus> {
     });
   }
 
+  void isLogged() async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool? logged = prefs.getBool('loggedIn');
+    state = state.copyWith(isLoggedIn: logged??false);
+  }
+
   Future loginUser() async {
     if (isReadyToLogin()) {
       try {
@@ -44,6 +51,11 @@ class AuthController extends StateNotifier<AuthStatus> {
         firebaseUser = FirebaseAuth.instance.currentUser!;
         state = state.copyWith(
             isLoading: false, isLoggedIn: true, error: firebaseUser.email!);
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('loggedIn', true);
+        await prefs.setString('email', state.email);
+        await prefs.setString('loginType', 'firebaseUser');
+
       } on FirebaseAuthException catch (e) {
         state = state.copyWith(isLoading: false, isLoggedIn: false);
         if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
@@ -70,6 +82,11 @@ class AuthController extends StateNotifier<AuthStatus> {
         firebaseUser = FirebaseAuth.instance.currentUser!;
         state = state.copyWith(
             isLoading: false, isLoggedIn: true, error: gUser.displayName!);
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('loggedIn', true);
+        await prefs.setString('email', state.email);
+        await prefs.setString('loginType', 'googleUser');
       } else {
         state = state.copyWith(isLoading: false, error: 'No user selected');
       }
@@ -84,6 +101,8 @@ class AuthController extends StateNotifier<AuthStatus> {
     GoogleSignIn().signOut();
     state = state.copyWith(
         isLoading: false, isLoggedIn: false, error: 'signed Out');
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('loggedIn', false);
   }
 
   void togglePassword() {

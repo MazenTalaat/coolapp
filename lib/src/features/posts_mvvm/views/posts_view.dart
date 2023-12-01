@@ -24,9 +24,22 @@ class PostsView extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            const Text("Data from shared preference"),
+
+            FutureBuilder<String>(
+              future: postsViewModel.getFromSharedPreference(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else {
+                  var data = snapshot.data;
+                  return Text(data.toString());
+                }
+              },
+            ),
             SizedBox(
               width: screenDimensions.width,
-              height: screenDimensions.height/2,
+              height: screenDimensions.height / 2,
               child: Center(
                 child: FutureBuilder<List<Posts>>(
                   future: postsViewModel.fetchAllPosts(),
@@ -38,7 +51,7 @@ class PostsView extends ConsumerWidget {
                       return ListView.builder(
                         itemCount: posts?.length,
                         itemBuilder: (context, index) => ListTile(
-                          title: Text(posts![index].title??'---'),
+                          title: Text(posts![index].title ?? '---'),
                         ),
                       );
                     }

@@ -19,6 +19,7 @@ class AuthScreen extends ConsumerWidget {
         context.goNamed(AppRoute.posts.name);
       }
     });
+    ref.read(authControllerProvider.notifier).isLogged();
     var status = ref.watch(authControllerProvider);
     return Scaffold(
         backgroundColor: Colors.white,

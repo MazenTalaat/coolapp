@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 enum AppRoute { auth, sigUp, posts }
 
 final goRouter = GoRouter(
-  initialLocation: '/posts',
+  initialLocation: '/auth',
   debugLogDiagnostics: true,
   routes: [
     GoRoute(
