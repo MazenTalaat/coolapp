@@ -12,13 +12,4 @@ class PostsViewModel {
     var listOfPosts = await postsRepository!.getAllPosts();
     return listOfPosts;
   }
-
-  Future<String> getFromSharedPreference() async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool? logged = prefs.getBool('loggedIn');
-    final String? email = prefs.getString('email');
-    final String? loginType = prefs.getString('loginType');
-
-    return 'isLogged? $logged, email: $email, loginType: $loginType';
-  }
 }

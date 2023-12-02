@@ -1,4 +1,4 @@
-import 'package:coolapp/locator.dart';
+import 'package:coolapp/core/locator.dart';
 import 'package:coolapp/src/features/auth_mvc/models/auth_model.dart';
 import 'package:coolapp/src/features/auth_mvc/repositories/auth_fake.dart';
 import 'package:coolapp/src/features/auth_mvc/repositories/auth_firebase.dart';
@@ -16,6 +16,7 @@ class AuthController extends StateNotifier<AuthStatus> {
 
   // var authLocator = locator.get<AuthFirebase>();
   var authLocator = locator.get<AuthFake>();
+  final SharedPreferences prefs = locator.get<SharedPreferences>();
 
   AuthController()
       : super(
@@ -38,10 +39,10 @@ class AuthController extends StateNotifier<AuthStatus> {
     });
   }
 
-  void isLogged() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
+  isLogged() {
     final bool? logged = prefs.getBool('loggedIn');
     state = state.copyWith(isLoggedIn: logged ?? false);
+    return logged;
   }
 
   Future loginUser() async {
@@ -50,7 +51,6 @@ class AuthController extends StateNotifier<AuthStatus> {
         state = state.copyWith(isLoading: true, error: '');
         await authLocator.loginUser(state.email, state.password);
         state = state.copyWith(isLoading: false, isLoggedIn: true);
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('loggedIn', true);
         await prefs.setString('email', state.email);
         await prefs.setString('loginType', 'firebaseUser');
@@ -72,7 +72,6 @@ class AuthController extends StateNotifier<AuthStatus> {
       if (gUser != null) {
         await authLocator.signInWithGoogle(gUser);
         state = state.copyWith(isLoading: false, isLoggedIn: true);
-        final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('loggedIn', true);
         await prefs.setString('email', gUser.email);
         await prefs.setString('loginType', 'googleUser');
@@ -84,12 +83,19 @@ class AuthController extends StateNotifier<AuthStatus> {
     }
   }
 
+  String getFromSharedPreference() {
+    final bool? logged = prefs.getBool('loggedIn');
+    final String? email = prefs.getString('email');
+    final String? loginType = prefs.getString('loginType');
+
+    return 'isLogged? $logged, email: $email, loginType: $loginType';
+  }
+
   void signOut() async {
     state = state.copyWith(isLoading: true, error: '');
     await authLocator.signOut();
     state = state.copyWith(
         isLoading: false, isLoggedIn: false, error: 'signed Out');
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setBool('loggedIn', false);
   }
 

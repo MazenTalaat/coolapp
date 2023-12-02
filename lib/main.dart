@@ -1,7 +1,7 @@
-import 'package:coolapp/locator.dart';
+import 'package:coolapp/core/locator.dart';
 import 'package:coolapp/old_pages/home_page.dart';
 import 'package:coolapp/old_pages/profile_page.dart';
-import 'package:coolapp/src/core/app_router.dart';
+import 'package:coolapp/core/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n.dart';
@@ -14,7 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  locatorSetup();
+  await locatorSetup();
   runApp( const ProviderScope(child: TestApp()));
 }
 
@@ -26,6 +26,7 @@ class TestApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(useMaterial3: false),
     );
   }
 }

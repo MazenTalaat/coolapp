@@ -1,4 +1,4 @@
-import 'package:coolapp/src/core/app_router.dart';
+import 'package:coolapp/core/app_router.dart';
 import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,8 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:email_validator/email_validator.dart';
 
-class AuthScreen extends ConsumerWidget {
-  const AuthScreen({super.key});
+class AuthView extends ConsumerWidget {
+  const AuthView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,12 +16,15 @@ class AuthScreen extends ConsumerWidget {
     ref.listen(authControllerProvider, (previous, next) {
       if (next.isLoggedIn) {
         print('Logged In');
-        context.goNamed(AppRoute.posts.name);
+        context.goNamed(AppRoute.authSuccess.name);
       }
     });
-    ref.read(authControllerProvider.notifier).isLogged();
     var status = ref.watch(authControllerProvider);
-    return Scaffold(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Login Page"),
+        ),
         backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -36,7 +39,8 @@ class AuthScreen extends ConsumerWidget {
                 Form(
                   key: ref.watch(authControllerProvider.notifier).mailFormKey,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
                     child: FocusScope(
                       onFocusChange: (value) {
                         if (!value) {
@@ -250,14 +254,17 @@ class AuthScreen extends ConsumerWidget {
                     onPressed: status.isLoading
                         ? null
                         : () {
-                            ref.read(authControllerProvider.notifier).loginUser();
+                            ref
+                                .read(authControllerProvider.notifier)
+                                .loginUser();
                           },
                     child: status.isLoading
                         ? JumpingDots(
                             color: Colors.black,
                             radius: 7,
                             numberOfDots: 3,
-                            animationDuration: const Duration(milliseconds: 200),
+                            animationDuration:
+                                const Duration(milliseconds: 200),
                             verticalOffset: -10,
                           )
                         : const Text('Login'),
@@ -270,37 +277,20 @@ class AuthScreen extends ConsumerWidget {
                     onPressed: status.isLoading
                         ? null
                         : () {
-                      ref.read(authControllerProvider.notifier).signInWithGoogle();
-                    },
+                            ref
+                                .read(authControllerProvider.notifier)
+                                .signInWithGoogle();
+                          },
                     child: status.isLoading
                         ? JumpingDots(
-                      color: Colors.black,
-                      radius: 7,
-                      numberOfDots: 3,
-                      animationDuration: const Duration(milliseconds: 200),
-                      verticalOffset: -10,
-                    )
+                            color: Colors.black,
+                            radius: 7,
+                            numberOfDots: 3,
+                            animationDuration:
+                                const Duration(milliseconds: 200),
+                            verticalOffset: -10,
+                          )
                         : const Text('Sign In with Google'),
-                  ),
-                ),
-                SizedBox(
-                  width: screenDimensions.width / 2.8,
-                  height: screenDimensions.height / 18,
-                  child: ElevatedButton(
-                    onPressed: status.isLoading
-                        ? null
-                        : () {
-                      ref.read(authControllerProvider.notifier).signOut();
-                    },
-                    child: status.isLoading
-                        ? JumpingDots(
-                      color: Colors.black,
-                      radius: 7,
-                      numberOfDots: 3,
-                      animationDuration: const Duration(milliseconds: 200),
-                      verticalOffset: -10,
-                    )
-                        : const Text('Sign Out'),
                   ),
                 ),
                 Text(status.error),
@@ -308,6 +298,7 @@ class AuthScreen extends ConsumerWidget {
             ),
           ),
         ),
+      ),
     );
   }
 }
