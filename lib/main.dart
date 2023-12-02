@@ -1,3 +1,4 @@
+import 'package:coolapp/locator.dart';
 import 'package:coolapp/old_pages/home_page.dart';
 import 'package:coolapp/old_pages/profile_page.dart';
 import 'package:coolapp/src/core/app_router.dart';
@@ -13,6 +14,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  locatorSetup();
   runApp( const ProviderScope(child: TestApp()));
 }
 

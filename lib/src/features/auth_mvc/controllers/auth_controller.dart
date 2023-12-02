@@ -1,4 +1,7 @@
+import 'package:coolapp/locator.dart';
 import 'package:coolapp/src/features/auth_mvc/models/auth_model.dart';
+import 'package:coolapp/src/features/auth_mvc/repositories/auth_fake.dart';
+import 'package:coolapp/src/features/auth_mvc/repositories/auth_firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,7 +14,8 @@ class AuthController extends StateNotifier<AuthStatus> {
   final mailFormKey = GlobalKey<FormState>();
   final passFormKey = GlobalKey<FormState>();
 
-  var firebaseUser;
+  // var authLocator = locator.get<AuthFirebase>();
+  var authLocator = locator.get<AuthFake>();
 
   AuthController()
       : super(
@@ -34,28 +38,22 @@ class AuthController extends StateNotifier<AuthStatus> {
     });
   }
 
-  void isLogged() async{
+  void isLogged() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? logged = prefs.getBool('loggedIn');
-    state = state.copyWith(isLoggedIn: logged??false);
+    state = state.copyWith(isLoggedIn: logged ?? false);
   }
 
   Future loginUser() async {
     if (isReadyToLogin()) {
       try {
         state = state.copyWith(isLoading: true, error: '');
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: state.email,
-          password: state.password,
-        );
-        firebaseUser = FirebaseAuth.instance.currentUser!;
-        state = state.copyWith(
-            isLoading: false, isLoggedIn: true, error: firebaseUser.email!);
+        await authLocator.loginUser(state.email, state.password);
+        state = state.copyWith(isLoading: false, isLoggedIn: true);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('loggedIn', true);
         await prefs.setString('email', state.email);
         await prefs.setString('loginType', 'firebaseUser');
-
       } on FirebaseAuthException catch (e) {
         state = state.copyWith(isLoading: false, isLoggedIn: false);
         if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
@@ -63,6 +61,7 @@ class AuthController extends StateNotifier<AuthStatus> {
           print('Email or password is not correct');
         }
       }
+      state = state.copyWith(isLoading: false, isLoggedIn: false);
     }
   }
 
@@ -71,21 +70,11 @@ class AuthController extends StateNotifier<AuthStatus> {
       state = state.copyWith(isLoading: true, error: '');
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       if (gUser != null) {
-        final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-
-        final credential = GoogleAuthProvider.credential(
-          accessToken: gAuth.accessToken,
-          idToken: gAuth.idToken,
-        );
-
-        await FirebaseAuth.instance.signInWithCredential(credential);
-        firebaseUser = FirebaseAuth.instance.currentUser!;
-        state = state.copyWith(
-            isLoading: false, isLoggedIn: true, error: gUser.displayName!);
-
+        await authLocator.signInWithGoogle(gUser);
+        state = state.copyWith(isLoading: false, isLoggedIn: true);
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setBool('loggedIn', true);
-        await prefs.setString('email', state.email);
+        await prefs.setString('email', gUser.email);
         await prefs.setString('loginType', 'googleUser');
       } else {
         state = state.copyWith(isLoading: false, error: 'No user selected');
@@ -97,8 +86,7 @@ class AuthController extends StateNotifier<AuthStatus> {
 
   void signOut() async {
     state = state.copyWith(isLoading: true, error: '');
-    await FirebaseAuth.instance.signOut();
-    GoogleSignIn().signOut();
+    await authLocator.signOut();
     state = state.copyWith(
         isLoading: false, isLoggedIn: false, error: 'signed Out');
     final SharedPreferences prefs = await SharedPreferences.getInstance();
