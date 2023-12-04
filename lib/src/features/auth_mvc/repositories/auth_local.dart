@@ -1,7 +1,7 @@
 import 'package:coolapp/src/features/auth_mvc/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AuthFake implements AuthRepository {
+class AuthLocal implements AuthRepository {
   @override
   Future<void> loginUser(email, password) async {
     if (email != 'b@b.com' || password != "123456") {

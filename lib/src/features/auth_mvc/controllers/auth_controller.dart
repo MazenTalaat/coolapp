@@ -1,6 +1,6 @@
 import 'package:coolapp/core/locator.dart';
 import 'package:coolapp/src/features/auth_mvc/models/auth_model.dart';
-import 'package:coolapp/src/features/auth_mvc/repositories/auth_fake.dart';
+import 'package:coolapp/src/features/auth_mvc/repositories/auth_local.dart';
 import 'package:coolapp/src/features/auth_mvc/repositories/auth_firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,8 +14,8 @@ class AuthController extends StateNotifier<AuthStatus> {
   final mailFormKey = GlobalKey<FormState>();
   final passFormKey = GlobalKey<FormState>();
 
-  // var authLocator = locator.get<AuthFirebase>();
-  var authLocator = locator.get<AuthFake>();
+  var authLocator = locator.get<AuthFirebase>();
+  // var authLocator = locator.get<AuthLocal>();
   final SharedPreferences prefs = locator.get<SharedPreferences>();
 
   AuthController()
@@ -55,13 +55,13 @@ class AuthController extends StateNotifier<AuthStatus> {
         await prefs.setString('email', state.email);
         await prefs.setString('loginType', 'firebaseUser');
       } on FirebaseAuthException catch (e) {
-        state = state.copyWith(isLoading: false, isLoggedIn: false);
         if (e.code == 'INVALID_LOGIN_CREDENTIALS') {
           state = state.copyWith(error: 'Email or password is not correct');
           print('Email or password is not correct');
         }
+        state = state.copyWith(isLoading: false, isLoggedIn: false, error: e.code);
       }
-      state = state.copyWith(isLoading: false, isLoggedIn: false);
+      state = state.copyWith(isLoading: false);
     }
   }
 
@@ -71,10 +71,10 @@ class AuthController extends StateNotifier<AuthStatus> {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       if (gUser != null) {
         await authLocator.signInWithGoogle(gUser);
-        state = state.copyWith(isLoading: false, isLoggedIn: true);
         await prefs.setBool('loggedIn', true);
         await prefs.setString('email', gUser.email);
         await prefs.setString('loginType', 'googleUser');
+        state = state.copyWith(isLoading: false, isLoggedIn: true);
       } else {
         state = state.copyWith(isLoading: false, error: 'No user selected');
       }
@@ -121,6 +121,6 @@ class AuthController extends StateNotifier<AuthStatus> {
 }
 
 final authControllerProvider =
-    StateNotifierProvider<AuthController, AuthStatus>((ref) {
+    StateNotifierProvider.autoDispose<AuthController, AuthStatus>((ref) {
   return AuthController();
 });

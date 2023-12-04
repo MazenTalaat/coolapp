@@ -1,5 +1,6 @@
 import 'package:coolapp/core/app_router.dart';
 import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
+import 'package:coolapp/src/features/register_mvc/controllers/register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -7,23 +8,23 @@ import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:email_validator/email_validator.dart';
 
-class AuthView extends ConsumerWidget {
-  const AuthView({super.key});
+class RegisterView extends ConsumerWidget {
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final screenDimensions = MediaQuery.of(context).size;
-    ref.listen(authControllerProvider, (previous, next) {
+    ref.listen(registerControllerProvider, (previous, next) {
       if (next.isLoggedIn) {
-        print('Logged In');
+        print('Registered!');
         context.goNamed(AppRoute.authSuccess.name);
       }
     });
-    var status = ref.watch(authControllerProvider);
+    var status = ref.watch(registerControllerProvider);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Login Page"),
+          title: const Text("Register Page"),
         ),
         backgroundColor: Colors.white,
         body: Padding(
@@ -34,10 +35,10 @@ class AuthView extends ConsumerWidget {
               children: [
                 const Padding(
                   padding: EdgeInsets.all(10.0),
-                  child: Text('Login Screen'),
+                  child: Text('Register Screen'),
                 ),
                 Form(
-                  key: ref.watch(authControllerProvider.notifier).mailFormKey,
+                  key: ref.watch(registerControllerProvider.notifier).mailFormKey,
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
@@ -45,7 +46,7 @@ class AuthView extends ConsumerWidget {
                       onFocusChange: (value) {
                         if (!value) {
                           ref
-                              .watch(authControllerProvider.notifier)
+                              .watch(registerControllerProvider.notifier)
                               .mailFormKey
                               .currentState!
                               .validate();
@@ -63,7 +64,7 @@ class AuthView extends ConsumerWidget {
                             ],
                             autofillHints: const [AutofillHints.email],
                             controller: ref
-                                .watch(authControllerProvider.notifier)
+                                .watch(registerControllerProvider.notifier)
                                 .emailController,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
@@ -101,14 +102,14 @@ class AuthView extends ConsumerWidget {
                             ),
                             onFieldSubmitted: (value) {
                               ref
-                                  .watch(authControllerProvider.notifier)
+                                  .watch(registerControllerProvider.notifier)
                                   .mailFormKey
                                   .currentState!
                                   .validate();
                             },
                             onChanged: (value) {
                               ref
-                                  .watch(authControllerProvider.notifier)
+                                  .watch(registerControllerProvider.notifier)
                                   .mailFormKey
                                   .currentState!
                                   .validate();
@@ -116,12 +117,12 @@ class AuthView extends ConsumerWidget {
                             validator: (value) {
                               if (!EmailValidator.validate(value!)) {
                                 ref
-                                    .read(authControllerProvider.notifier)
+                                    .read(registerControllerProvider.notifier)
                                     .validEmail(false);
                                 return null;
                               }
                               ref
-                                  .read(authControllerProvider.notifier)
+                                  .read(registerControllerProvider.notifier)
                                   .validEmail(true);
                               return null;
                             },
@@ -139,14 +140,14 @@ class AuthView extends ConsumerWidget {
                 ),
                 Text(status.email),
                 Form(
-                  key: ref.watch(authControllerProvider.notifier).passFormKey,
+                  key: ref.watch(registerControllerProvider.notifier).passFormKey,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(26, 15, 26, 15),
                     child: FocusScope(
                       onFocusChange: (value) {
                         if (!value) {
                           ref
-                              .watch(authControllerProvider.notifier)
+                              .watch(registerControllerProvider.notifier)
                               .passFormKey
                               .currentState!
                               .validate();
@@ -163,7 +164,7 @@ class AuthView extends ConsumerWidget {
                             autofillHints: const [AutofillHints.password],
                             obscureText: status.obscurePassword,
                             controller: ref
-                                .watch(authControllerProvider.notifier)
+                                .watch(registerControllerProvider.notifier)
                                 .passwordController,
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(
@@ -203,21 +204,21 @@ class AuthView extends ConsumerWidget {
                                     : Icons.visibility_off),
                                 onTap: () {
                                   ref
-                                      .read(authControllerProvider.notifier)
+                                      .read(registerControllerProvider.notifier)
                                       .togglePassword();
                                 },
                               ),
                             ),
                             onFieldSubmitted: (value) {
                               ref
-                                  .watch(authControllerProvider.notifier)
+                                  .watch(registerControllerProvider.notifier)
                                   .passFormKey
                                   .currentState!
                                   .validate();
                             },
                             onChanged: (value) {
                               ref
-                                  .watch(authControllerProvider.notifier)
+                                  .watch(registerControllerProvider.notifier)
                                   .passFormKey
                                   .currentState!
                                   .validate();
@@ -225,12 +226,12 @@ class AuthView extends ConsumerWidget {
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 ref
-                                    .read(authControllerProvider.notifier)
+                                    .read(registerControllerProvider.notifier)
                                     .validPassword(false);
                                 return null;
                               }
                               ref
-                                  .read(authControllerProvider.notifier)
+                                  .read(registerControllerProvider.notifier)
                                   .validPassword(true);
                               return null;
                             },
@@ -255,8 +256,8 @@ class AuthView extends ConsumerWidget {
                         ? null
                         : () {
                             ref
-                                .read(authControllerProvider.notifier)
-                                .loginUser();
+                                .read(registerControllerProvider.notifier)
+                                .registerUser();
                           },
                     child: status.isLoading
                         ? JumpingDots(
@@ -267,44 +268,18 @@ class AuthView extends ConsumerWidget {
                                 const Duration(milliseconds: 200),
                             verticalOffset: -10,
                           )
-                        : const Text('Login'),
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(10),
-                ),
-                SizedBox(
-                  width: screenDimensions.width / 2.8,
-                  height: screenDimensions.height / 18,
-                  child: ElevatedButton(
-                    onPressed: status.isLoading
-                        ? null
-                        : () {
-                            ref
-                                .read(authControllerProvider.notifier)
-                                .signInWithGoogle();
-                          },
-                    child: status.isLoading
-                        ? JumpingDots(
-                            color: Colors.black,
-                            radius: 7,
-                            numberOfDots: 3,
-                            animationDuration:
-                                const Duration(milliseconds: 200),
-                            verticalOffset: -10,
-                          )
-                        : const Text('Continue with Google'),
+                        : const Text('Register'),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Not a user?"),
+                    const Text("Already a user?"),
                     TextButton(
                         onPressed: () {
-                          context.goNamed(AppRoute.register.name);
+                          context.goNamed(AppRoute.auth.name);
                         },
-                        child: const Text("Register Now")),
+                        child: const Text("Log in")),
                   ],
                 ),
                 Text(status.error),

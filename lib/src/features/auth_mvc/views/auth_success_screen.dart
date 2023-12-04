@@ -35,7 +35,9 @@ class AuthSuccessView extends ConsumerWidget {
                 onPressed: status.isLoading
                     ? null
                     : () {
+                        ref.invalidate(authControllerProvider);
                         ref.read(authControllerProvider.notifier).signOut();
+
                         context.goNamed(AppRoute.auth.name);
                       },
                 child: status.isLoading
