@@ -1,9 +1,12 @@
 import 'package:coolapp/core/app_router.dart';
+import 'package:coolapp/core/locale_provider.dart';
 import 'package:coolapp/core/theme/theme_provider.dart';
+import 'package:coolapp/generated/l10n.dart';
 import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:coolapp/generated/l10n.dart';
 
 class IntroView extends ConsumerWidget {
   const IntroView({super.key});
@@ -11,11 +14,12 @@ class IntroView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final appThemeState = ref.watch(appThemeStateNotifier);
+    final appLocaleState = ref.watch(appLocaleStateNotifier);
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Center(child: Text("Welcome to the cool app")),
+          title: Center(child: Text(S.of(context).title)),
         ),
         body: Center(
           child: Column(
@@ -30,18 +34,18 @@ class IntroView extends ConsumerWidget {
                     context.goNamed(AppRoute.auth.name);
                   }
                 },
-                child: const Text("Login Page"),
+                child: Text(S.of(context).login_page),
               ),
               FilledButton(
                 onPressed: () {
                   context.goNamed(AppRoute.posts.name);
                 },
-                child: const Text("API Call Page"),
+                child: Text(S.of(context).api_call_page),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text("Theme"),
+                  Text(S.of(context).theme),
                   Switch(
                     value: appThemeState.isDarkModeEnabled,
                     onChanged: (isDark) {
@@ -49,6 +53,22 @@ class IntroView extends ConsumerWidget {
                         appThemeState.setDarkTheme();
                       } else {
                         appThemeState.setLightTheme();
+                      }
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(S.of(context).lang),
+                  Switch(
+                    value: appLocaleState.lang == 'en',
+                    onChanged: (isEn) {
+                      if (isEn) {
+                        appLocaleState.setLocale('en');
+                      } else {
+                        appLocaleState.setLocale('ar');
                       }
                     },
                   ),

@@ -1,6 +1,23 @@
 {
-  "title": "عنوان عربي",
-  "learn_flutter": "تعلم فلاتر",
-  "dashboard": "التقرير",
-  "classes": "الفصول"
+  "title": "اهلا بك في التطبيق الكول",
+  "login_page": "صفحة التسجيل",
+  "api_call_page": "صفحة الوصول للبيانات",
+  "theme": "الثيم",
+  "lang": "اللغة",
+  "email": "البريد الالكتروني",
+  "email_valid": "برجاء ادخال بريد الكتروني صحيح",
+  "password": "كلمة المرور",
+  "password_valid": "كلمة المرور لايمكن ان تكون خالية",
+  "enter_password": "ادخل كلمة المرور",
+  "login": "تسجيل الدخول",
+  "continue_with_google": "التسجيل بجوجل",
+  "not_a_user": "لست مستخدم؟",
+  "register_now": "سجل الان",
+  "register_page": "صفحة التسجيل",
+  "register": "تسجيل",
+  "already_a_user": "مستخدم بالفعل؟",
+  "logged_in": "تم تسجيل الدخول!",
+  "data_from_shared_pref": "البيانات المخزنة",
+  "sign_out": "تسجيل الخروج",
+  "all_posts": "كل البريد"
 }

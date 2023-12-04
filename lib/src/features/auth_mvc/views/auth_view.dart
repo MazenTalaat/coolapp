@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:coolapp/generated/l10n.dart';
 
 class AuthView extends ConsumerWidget {
   const AuthView({super.key});
@@ -24,7 +25,7 @@ class AuthView extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Text("Login Page"),
+          title: Text(S.of(context).login_page),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -32,9 +33,9 @@ class AuthView extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Login Screen'),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(S.of(context).login_page),
                 ),
                 Form(
                   key: ref.watch(authControllerProvider.notifier).mailFormKey,
@@ -88,8 +89,8 @@ class AuthView extends ConsumerWidget {
                                       : Colors.red,
                                 ),
                               ),
-                              hintText: "User@neomi.com",
-                              labelText: "Email",
+                              hintText: "User@user.com",
+                              labelText: S.of(context).email,
                               hintStyle: TextStyle(
                                   color: status.isValidEmail
                                       ? Colors.grey
@@ -129,7 +130,7 @@ class AuthView extends ConsumerWidget {
                           Text(
                             status.isValidEmail
                                 ? ""
-                                : "Please enter a valid email",
+                                : S.of(context).email_valid,
                             style: const TextStyle(color: Colors.red),
                           ),
                         ],
@@ -187,8 +188,8 @@ class AuthView extends ConsumerWidget {
                                   // color: Colors.red,
                                 ),
                               ),
-                              hintText: "Enter your password",
-                              labelText: "Password",
+                              hintText: S.of(context).enter_password,
+                              labelText: S.of(context).password,
                               hintStyle: TextStyle(
                                   color: status.isValidPassword
                                       ? Colors.grey
@@ -238,7 +239,7 @@ class AuthView extends ConsumerWidget {
                           Text(
                             status.isValidPassword
                                 ? ""
-                                : "Password can't be empty",
+                                : S.of(context).password_valid,
                             style: const TextStyle(color: Colors.red),
                           ),
                         ],
@@ -267,7 +268,7 @@ class AuthView extends ConsumerWidget {
                                 const Duration(milliseconds: 200),
                             verticalOffset: -10,
                           )
-                        : const Text('Login'),
+                        : Text(S.of(context).login),
                   ),
                 ),
                 const Padding(
@@ -293,18 +294,18 @@ class AuthView extends ConsumerWidget {
                                 const Duration(milliseconds: 200),
                             verticalOffset: -10,
                           )
-                        : const Text('Continue with Google'),
+                        : Text(S.of(context).continue_with_google),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Not a user?"),
+                    Text(S.of(context).not_a_user),
                     TextButton(
                         onPressed: () {
                           context.goNamed(AppRoute.register.name);
                         },
-                        child: const Text("Register Now")),
+                        child: Text(S.of(context).register_now)),
                   ],
                 ),
                 Text(status.error),

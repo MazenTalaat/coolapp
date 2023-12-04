@@ -42,7 +42,7 @@ class AuthController extends StateNotifier<AuthStatus> {
   isLogged() {
     final bool? logged = prefs.getBool('loggedIn');
     state = state.copyWith(isLoggedIn: logged ?? false);
-    return logged;
+    return logged?? false;
   }
 
   Future loginUser() async {

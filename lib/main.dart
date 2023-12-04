@@ -1,3 +1,4 @@
+import 'package:coolapp/core/locale_provider.dart';
 import 'package:coolapp/core/locator.dart';
 import 'package:coolapp/core/theme/theme.dart';
 import 'package:coolapp/core/theme/theme_provider.dart';
@@ -31,6 +32,14 @@ class TestApp extends ConsumerWidget {
       theme: ref.watch(appThemeStateNotifier).isDarkModeEnabled
           ? darkMode
           : lightMode,
+      locale: Locale(ref.watch(appLocaleStateNotifier).lang),
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
     );
   }
 }
@@ -96,9 +105,9 @@ class TestApp extends ConsumerWidget {
 //         destinations: [
 //           NavigationDestination(
 //               icon: const Icon(Icons.dashboard),
-//               label: S.of(context).dashboard),
+//               label: 'S.of(context).dashboard'),
 //           NavigationDestination(
-//               icon: const Icon(Icons.class_), label: S.of(context).classes)
+//               icon: const Icon(Icons.class_), label: 'S.of(context).classes')
 //         ],
 //         onDestinationSelected: (int index) {
 //           setState(() {

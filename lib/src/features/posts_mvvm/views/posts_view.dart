@@ -3,6 +3,7 @@ import 'package:coolapp/src/features/posts_mvvm/repositories/posts_api.dart';
 import 'package:coolapp/src/features/posts_mvvm/view_models/posts_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:coolapp/generated/l10n.dart';
 
 class PostsView extends ConsumerWidget {
   PostsView({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class PostsView extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: Text(postsViewModel.title),
+          title: Text(S.of(context).all_posts),
         ),
         body: Center(
           child: Column(

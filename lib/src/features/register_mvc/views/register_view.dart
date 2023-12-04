@@ -1,5 +1,4 @@
 import 'package:coolapp/core/app_router.dart';
-import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
 import 'package:coolapp/src/features/register_mvc/controllers/register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:coolapp/generated/l10n.dart';
 
 class RegisterView extends ConsumerWidget {
   const RegisterView({super.key});
@@ -25,7 +25,7 @@ class RegisterView extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Text("Register Page"),
+          title: Text(S.of(context).register_page),
         ),
         body: Padding(
           padding: const EdgeInsets.all(10),
@@ -33,12 +33,14 @@ class RegisterView extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Text('Register Screen'),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(S.of(context).register_page),
                 ),
                 Form(
-                  key: ref.watch(registerControllerProvider.notifier).mailFormKey,
+                  key: ref
+                      .watch(registerControllerProvider.notifier)
+                      .mailFormKey,
                   child: Padding(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
@@ -90,7 +92,7 @@ class RegisterView extends ConsumerWidget {
                                 ),
                               ),
                               hintText: "User@neomi.com",
-                              labelText: "Email",
+                              labelText: S.of(context).email,
                               hintStyle: TextStyle(
                                   color: status.isValidEmail
                                       ? Colors.grey
@@ -130,7 +132,7 @@ class RegisterView extends ConsumerWidget {
                           Text(
                             status.isValidEmail
                                 ? ""
-                                : "Please enter a valid email",
+                                : S.of(context).email_valid,
                             style: const TextStyle(color: Colors.red),
                           ),
                         ],
@@ -140,7 +142,9 @@ class RegisterView extends ConsumerWidget {
                 ),
                 Text(status.email),
                 Form(
-                  key: ref.watch(registerControllerProvider.notifier).passFormKey,
+                  key: ref
+                      .watch(registerControllerProvider.notifier)
+                      .passFormKey,
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(26, 15, 26, 15),
                     child: FocusScope(
@@ -188,8 +192,8 @@ class RegisterView extends ConsumerWidget {
                                   // color: Colors.red,
                                 ),
                               ),
-                              hintText: "Enter your password",
-                              labelText: "Password",
+                              hintText: S.of(context).enter_password,
+                              labelText: S.of(context).password,
                               hintStyle: TextStyle(
                                   color: status.isValidPassword
                                       ? Colors.grey
@@ -239,7 +243,7 @@ class RegisterView extends ConsumerWidget {
                           Text(
                             status.isValidPassword
                                 ? ""
-                                : "Password can't be empty",
+                                : S.of(context).password_valid,
                             style: const TextStyle(color: Colors.red),
                           ),
                         ],
@@ -268,18 +272,18 @@ class RegisterView extends ConsumerWidget {
                                 const Duration(milliseconds: 200),
                             verticalOffset: -10,
                           )
-                        : const Text('Register'),
+                        : Text(S.of(context).register),
                   ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Already a user?"),
+                    Text(S.of(context).already_a_user),
                     TextButton(
                         onPressed: () {
                           context.goNamed(AppRoute.auth.name);
                         },
-                        child: const Text("Log in")),
+                        child: Text(S.of(context).login)),
                   ],
                 ),
                 Text(status.error),

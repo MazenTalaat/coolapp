@@ -17,7 +17,7 @@ class _ClassesState extends State<Classes> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(S.of(context).classes),
+        title: Text('S.of(context).classes'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {

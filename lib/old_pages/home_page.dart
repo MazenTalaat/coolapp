@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
             ),
           );
         },
-        child: Text(S.of(context).learn_flutter),
+        child: Text('S.of(context).learn_flutter'),
       ),
     );
   }

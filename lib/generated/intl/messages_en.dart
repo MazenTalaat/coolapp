@@ -22,9 +22,32 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "classes": MessageLookupByLibrary.simpleMessage("Classes"),
-        "dashboard": MessageLookupByLibrary.simpleMessage("Dashboard"),
-        "learn_flutter": MessageLookupByLibrary.simpleMessage("Learn Flutter"),
-        "title": MessageLookupByLibrary.simpleMessage("English title")
+        "all_posts": MessageLookupByLibrary.simpleMessage("All Posts"),
+        "already_a_user":
+            MessageLookupByLibrary.simpleMessage("Already a user?"),
+        "api_call_page": MessageLookupByLibrary.simpleMessage("API Call Page"),
+        "continue_with_google":
+            MessageLookupByLibrary.simpleMessage("Continue with Google"),
+        "data_from_shared_pref":
+            MessageLookupByLibrary.simpleMessage("Data from shared preference"),
+        "email": MessageLookupByLibrary.simpleMessage("Email"),
+        "email_valid":
+            MessageLookupByLibrary.simpleMessage("Please enter a valid email"),
+        "enter_password":
+            MessageLookupByLibrary.simpleMessage("Enter your password"),
+        "lang": MessageLookupByLibrary.simpleMessage("Lang"),
+        "logged_in": MessageLookupByLibrary.simpleMessage("Logged In!"),
+        "login": MessageLookupByLibrary.simpleMessage("Log in"),
+        "login_page": MessageLookupByLibrary.simpleMessage("Login Page"),
+        "not_a_user": MessageLookupByLibrary.simpleMessage("Not a user?"),
+        "password": MessageLookupByLibrary.simpleMessage("Password"),
+        "password_valid":
+            MessageLookupByLibrary.simpleMessage("Password can\'t be empty"),
+        "register": MessageLookupByLibrary.simpleMessage("Register"),
+        "register_now": MessageLookupByLibrary.simpleMessage("Register Now"),
+        "register_page": MessageLookupByLibrary.simpleMessage("Register Page"),
+        "sign_out": MessageLookupByLibrary.simpleMessage("Sign Out"),
+        "theme": MessageLookupByLibrary.simpleMessage("Theme"),
+        "title": MessageLookupByLibrary.simpleMessage("Welcome to the cool app")
       };
 }

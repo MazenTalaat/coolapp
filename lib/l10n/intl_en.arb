@@ -1,6 +1,23 @@
 {
-  "title": "English title",
-  "learn_flutter": "Learn Flutter",
-  "dashboard": "Dashboard",
-  "classes": "Classes"
+  "title": "Welcome to the cool app",
+  "login_page": "Login Page",
+  "api_call_page": "API Call Page",
+  "theme": "Theme",
+  "lang": "Lang",
+  "email": "Email",
+  "email_valid": "Please enter a valid email",
+  "password": "Password",
+  "password_valid": "Password can't be empty",
+  "enter_password": "Enter your password",
+  "login": "Log in",
+  "continue_with_google": "Continue with Google",
+  "not_a_user": "Not a user?",
+  "register_now": "Register Now",
+  "register_page": "Register Page",
+  "register": "Register",
+  "already_a_user": "Already a user?",
+  "logged_in": "Logged In!",
+  "data_from_shared_pref": "Data from shared preference",
+  "sign_out": "Sign Out",
+  "all_posts": "All Posts"
 }

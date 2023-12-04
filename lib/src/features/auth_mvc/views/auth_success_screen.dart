@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jumping_dot/jumping_dot.dart';
+import 'package:coolapp/generated/l10n.dart';
 
 class AuthSuccessView extends ConsumerWidget {
   const AuthSuccessView({super.key});
@@ -15,7 +16,7 @@ class AuthSuccessView extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Text("Logged In!"),
+          title: Text(S.of(context).logged_in),
           leading: IconButton(
               onPressed: () {
                 context.goNamed(AppRoute.intro.name);
@@ -26,7 +27,7 @@ class AuthSuccessView extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text("Data from shared preference"),
+              Text(S.of(context).data_from_shared_pref),
               Text(
                 ref
                     .watch(authControllerProvider.notifier)
@@ -49,7 +50,7 @@ class AuthSuccessView extends ConsumerWidget {
                         animationDuration: const Duration(milliseconds: 200),
                         verticalOffset: -10,
                       )
-                    : const Text('Sign Out'),
+                    : Text(S.of(context).sign_out),
               ),
             ],
           ),
