@@ -1,4 +1,6 @@
 import 'package:coolapp/core/locator.dart';
+import 'package:coolapp/core/theme/theme.dart';
+import 'package:coolapp/core/theme/theme_provider.dart';
 import 'package:coolapp/old_pages/home_page.dart';
 import 'package:coolapp/old_pages/profile_page.dart';
 import 'package:coolapp/core/app_router.dart';
@@ -15,18 +17,20 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await locatorSetup();
-  runApp( const ProviderScope(child: TestApp()));
+  runApp(const ProviderScope(child: TestApp()));
 }
 
-class TestApp extends StatelessWidget {
+class TestApp extends ConsumerWidget {
   const TestApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: goRouter,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.light(useMaterial3: false),
+      theme: ref.watch(appThemeStateNotifier).isDarkModeEnabled
+          ? darkMode
+          : lightMode,
     );
   }
 }

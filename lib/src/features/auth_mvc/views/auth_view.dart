@@ -22,10 +22,10 @@ class AuthView extends ConsumerWidget {
     var status = ref.watch(authControllerProvider);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title: const Text("Login Page"),
         ),
-        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(

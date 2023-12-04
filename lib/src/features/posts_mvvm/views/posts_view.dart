@@ -13,6 +13,7 @@ class PostsView extends ConsumerWidget {
     final screenDimensions = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title: Text(postsViewModel.title),
         ),

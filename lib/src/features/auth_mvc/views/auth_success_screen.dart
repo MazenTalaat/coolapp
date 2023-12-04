@@ -13,6 +13,7 @@ class AuthSuccessView extends ConsumerWidget {
     var status = ref.watch(authControllerProvider);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title: const Text("Logged In!"),
           leading: IconButton(

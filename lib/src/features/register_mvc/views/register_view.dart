@@ -23,10 +23,10 @@ class RegisterView extends ConsumerWidget {
     var status = ref.watch(registerControllerProvider);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
           title: const Text("Register Page"),
         ),
-        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: SingleChildScrollView(

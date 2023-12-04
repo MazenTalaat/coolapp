@@ -1,4 +1,5 @@
 import 'package:coolapp/core/app_router.dart';
+import 'package:coolapp/core/theme/theme_provider.dart';
 import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,10 +10,12 @@ class IntroView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final appThemeState = ref.watch(appThemeStateNotifier);
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          title: const Text("Welcome to the cool app"),
+          title: const Center(child: Text("Welcome to the cool app")),
         ),
         body: Center(
           child: Column(
@@ -34,6 +37,22 @@ class IntroView extends ConsumerWidget {
                   context.goNamed(AppRoute.posts.name);
                 },
                 child: const Text("API Call Page"),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Theme"),
+                  Switch(
+                    value: appThemeState.isDarkModeEnabled,
+                    onChanged: (isDark) {
+                      if (isDark) {
+                        appThemeState.setDarkTheme();
+                      } else {
+                        appThemeState.setLightTheme();
+                      }
+                    },
+                  ),
+                ],
               ),
             ],
           ),
