@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:coolapp/core/app_router.dart';
 import 'package:coolapp/src/features/auth_mvc/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
@@ -55,8 +56,8 @@ class AuthView extends ConsumerWidget {
                       child: Column(
                         children: [
                           TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            cursorColor: Colors.black,
+                            // style: const TextStyle(color: Colors.black),
+                            // cursorColor: Colors.black,
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(
                                 RegExp(r'\s'),
@@ -76,7 +77,7 @@ class AuthView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidEmail
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                   // color: Colors.red,
                                 ),
@@ -85,7 +86,7 @@ class AuthView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidEmail
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                 ),
                               ),
@@ -156,8 +157,8 @@ class AuthView extends ConsumerWidget {
                       child: Column(
                         children: [
                           TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            cursorColor: Colors.black,
+                            // style: const TextStyle(color: Colors.black),
+                            // cursorColor: Colors.black,
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(RegExp(r'\s')),
                             ],
@@ -175,7 +176,7 @@ class AuthView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidPassword
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                 ),
                               ),
@@ -183,7 +184,7 @@ class AuthView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidPassword
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                   // color: Colors.red,
                                 ),
@@ -261,7 +262,7 @@ class AuthView extends ConsumerWidget {
                           },
                     child: status.isLoading
                         ? JumpingDots(
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.onBackground,
                             radius: 7,
                             numberOfDots: 3,
                             animationDuration:
@@ -287,14 +288,14 @@ class AuthView extends ConsumerWidget {
                           },
                     child: status.isLoading
                         ? JumpingDots(
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.onBackground,
                             radius: 7,
                             numberOfDots: 3,
                             animationDuration:
                                 const Duration(milliseconds: 200),
                             verticalOffset: -10,
                           )
-                        : Text(S.of(context).continue_with_google),
+                        :  AutoSizeText(S.of(context).continue_with_google, minFontSize: 8, maxLines: 1),
                   ),
                 ),
                 Row(

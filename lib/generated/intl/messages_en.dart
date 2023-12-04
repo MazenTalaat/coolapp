@@ -27,7 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Already a user?"),
         "api_call_page": MessageLookupByLibrary.simpleMessage("API Call Page"),
         "continue_with_google":
-            MessageLookupByLibrary.simpleMessage("Continue with Google"),
+            MessageLookupByLibrary.simpleMessage("Sign with Google"),
         "data_from_shared_pref":
             MessageLookupByLibrary.simpleMessage("Data from shared preference"),
         "email": MessageLookupByLibrary.simpleMessage("Email"),

@@ -36,7 +36,7 @@ class PostsView extends ConsumerWidget {
                         return ListView.builder(
                           itemCount: posts?.length,
                           itemBuilder: (context, index) => ListTile(
-                            title: Text(posts![index].title ?? '---'),
+                            title: Text(posts![index].title ?? '---', textDirection: TextDirection.ltr),
                           ),
                         );
                       }

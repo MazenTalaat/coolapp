@@ -28,10 +28,15 @@ class AuthSuccessView extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(S.of(context).data_from_shared_pref),
-              Text(
-                ref
-                    .watch(authControllerProvider.notifier)
-                    .getFromSharedPreference(),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  ref
+                      .watch(authControllerProvider.notifier)
+                      .getFromSharedPreference(),
+                  textAlign: TextAlign.center,
+                  textDirection: TextDirection.ltr,
+                ),
               ),
               TextButton(
                 onPressed: status.isLoading
@@ -44,7 +49,7 @@ class AuthSuccessView extends ConsumerWidget {
                       },
                 child: status.isLoading
                     ? JumpingDots(
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onBackground,
                         radius: 7,
                         numberOfDots: 3,
                         animationDuration: const Duration(milliseconds: 200),

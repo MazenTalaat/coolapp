@@ -160,10 +160,10 @@ class S {
     );
   }
 
-  /// `Continue with Google`
+  /// `Sign with Google`
   String get continue_with_google {
     return Intl.message(
-      'Continue with Google',
+      'Sign with Google',
       name: 'continue_with_google',
       desc: '',
       args: [],

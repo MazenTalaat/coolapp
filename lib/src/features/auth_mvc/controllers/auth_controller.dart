@@ -79,6 +79,7 @@ class AuthController extends StateNotifier<AuthStatus> {
         state = state.copyWith(isLoading: false, error: 'No user selected');
       }
     } catch (e) {
+      debugPrint(e.toString());
       state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
@@ -88,7 +89,7 @@ class AuthController extends StateNotifier<AuthStatus> {
     final String? email = prefs.getString('email');
     final String? loginType = prefs.getString('loginType');
 
-    return 'isLogged? $logged, email: $email, loginType: $loginType';
+    return 'isLogged? $logged,\nemail: $email,\nloginType: $loginType';
   }
 
   void signOut() async {

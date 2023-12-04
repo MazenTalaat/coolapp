@@ -10,7 +10,7 @@
   "password_valid": "Password can't be empty",
   "enter_password": "Enter your password",
   "login": "Log in",
-  "continue_with_google": "Continue with Google",
+  "continue_with_google": "Sign with Google",
   "not_a_user": "Not a user?",
   "register_now": "Register Now",
   "register_page": "Register Page",

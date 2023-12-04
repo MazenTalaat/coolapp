@@ -57,8 +57,8 @@ class RegisterView extends ConsumerWidget {
                       child: Column(
                         children: [
                           TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            cursorColor: Colors.black,
+                            // style: const TextStyle(color: Colors.black),
+                            // cursorColor: Colors.black,
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(
                                 RegExp(r'\s'),
@@ -78,7 +78,7 @@ class RegisterView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidEmail
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                   // color: Colors.red,
                                 ),
@@ -87,7 +87,7 @@ class RegisterView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidEmail
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                 ),
                               ),
@@ -160,8 +160,8 @@ class RegisterView extends ConsumerWidget {
                       child: Column(
                         children: [
                           TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            cursorColor: Colors.black,
+                            // style: const TextStyle(color: Colors.black),
+                            // cursorColor: Colors.black,
                             inputFormatters: [
                               FilteringTextInputFormatter.deny(RegExp(r'\s')),
                             ],
@@ -179,7 +179,7 @@ class RegisterView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidPassword
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                 ),
                               ),
@@ -187,7 +187,7 @@ class RegisterView extends ConsumerWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 borderSide: BorderSide(
                                   color: status.isValidPassword
-                                      ? Colors.black
+                                      ? Theme.of(context).colorScheme.onBackground
                                       : Colors.red,
                                   // color: Colors.red,
                                 ),
@@ -265,7 +265,7 @@ class RegisterView extends ConsumerWidget {
                           },
                     child: status.isLoading
                         ? JumpingDots(
-                            color: Colors.black,
+                            color: Theme.of(context).colorScheme.onBackground,
                             radius: 7,
                             numberOfDots: 3,
                             animationDuration:
