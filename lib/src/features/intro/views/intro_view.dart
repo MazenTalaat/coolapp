@@ -74,6 +74,18 @@ class IntroView extends ConsumerWidget {
                   ),
                 ],
               ),
+              FilledButton(
+                onPressed: () {
+                  context.goNamed(AppRoute.nullPage.name);
+                },
+                child: const Text("Null"),
+              ),
+              FilledButton(
+                onPressed: () {
+                  context.goNamed(AppRoute.nullHandling.name);
+                },
+                child: const Text("Null Handling"),
+              ),
             ],
           ),
         ),

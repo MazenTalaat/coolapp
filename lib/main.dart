@@ -28,7 +28,7 @@ class TestApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
       routerConfig: goRouter,
-      debugShowCheckedModeBanner: false,
+      // debugShowCheckedModeBanner: false,
       theme: ref.watch(appThemeStateNotifier).isDarkModeEnabled
           ? darkMode
           : lightMode,
